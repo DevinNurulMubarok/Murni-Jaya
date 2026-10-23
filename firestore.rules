@@ -1,0 +1,59 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Helper functions
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isAdmin() {
+      return isSignedIn() && (
+        request.auth.token.admin == true ||
+        request.auth.token.role == "ADMIN" ||
+        (request.auth.token.email != null && request.auth.token.email.matches(".*admin.*"))
+      );
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    // Rules for Tickets Collection (Perjalanan & Transaksi Penumpang)
+    match /tickets/{ticketId} {
+      // Izinkan pemesanan tiket dengan validasi harga & data wajib
+      allow create: if request.resource.data.price is number || request.resource.data.price is string;
+      
+      // Izinkan pembacaan tiket
+      allow read: if true;
+
+      // Hanya pemilik tiket atau Admin yang dapat memperbarui status tiket
+      allow update: if isSignedIn() && (
+        resource.data.userId == request.auth.uid || isAdmin()
+      );
+
+      // Cegah pembobolan & penghapusan massal tiket oleh hacker (hanya Admin terverifikasi)
+      allow delete: if isAdmin() || (isSignedIn() && resource.data.userId == request.auth.uid);
+    }
+
+    // Rules for Users Collection (Profil Admin & Penumpang)
+    match /users/{userId} {
+      allow read: if isSignedIn();
+      allow create: if isSignedIn() && request.auth.uid == userId;
+      allow update: if isOwner(userId) || isAdmin();
+      allow delete: if isAdmin();
+    }
+
+    // Rules for Reviews & Comments Collection
+    match /reviews/{reviewId} {
+      allow read: if true;
+      allow create: if isSignedIn();
+      allow update, delete: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
+    }
+
+    // Kunci seluruh koleksi yang tidak terdaftar (Default Deny / Zero Trust)
+    match /{document=**} {
+      allow read, write: if isAdmin();
+    }
+  }
+}

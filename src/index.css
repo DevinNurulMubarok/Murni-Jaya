@@ -1,0 +1,219 @@
+
+@import "tailwindcss";
+
+/* ========================================
+   THEME
+======================================== */
+
+@theme {
+  --color-primary: #004aad;
+  --color-secondary: #f43f5e;
+  --color-dark: #0f172a;
+  --color-light: #f8fafc;
+  --color-accent: #fbbf24;
+
+  --font-display: "Outfit", sans-serif;
+  --font-body: "Inter", sans-serif;
+}
+
+/* ========================================
+   GLOBAL VARIABLES
+======================================== */
+
+:root,
+.theme-light {
+  --color-primary: #0e76ff;
+  --color-secondary: #f43f5e;
+  --color-dark: #0f172a;
+  --color-light: #f8fafc;
+  --color-accent: #fbbf24;
+
+  --font-display: "Outfit", sans-serif;
+  --font-body: "Inter", sans-serif;
+
+  --bg-page: #f8fafc;
+  --text-primary: #0f172a;
+}
+
+.theme-slate {
+  --bg-page: #0f172a;
+  --text-primary: #f8fafc;
+}
+
+.theme-amoled {
+  --bg-page: #000000;
+  --text-primary: #ffffff;
+}
+
+/* ========================================
+   BASE STYLES
+======================================== */
+
+@layer base {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    margin: 0;
+    font-family: var(--font-body);
+    background-color: var(--bg-page) !important; 
+    color: var(--text-primary) !important;
+
+    transition:
+      background-color 300ms ease,
+      color 300ms ease;
+  }
+
+  button {
+    font-family: inherit;
+    cursor: pointer;
+  }
+
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+}
+
+/* ========================================
+   PRIMARY BUTTON
+======================================== */
+
+@layer components {
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 0.75rem 2rem;
+
+    border: none;
+    border-radius: 9999px;
+
+    background-color: var(--color-primary);
+    color: #ffffff;
+
+    font-weight: 700;
+    text-decoration: none;
+
+    transition:
+      background-color 300ms ease,
+      transform 300ms ease;
+  }
+
+  .btn-primary:hover {
+    background-color: rgba(0, 74, 173, 0.9);
+  }
+
+  .btn-primary:active {
+    transform: scale(0.95);
+  }
+}
+
+/* ========================================
+   PROMO POPUP
+   GENERAL SETTINGS
+======================================== */
+
+.promo-popup,
+.promo-modal,
+.ad-popup {
+  position: relative;
+}
+
+/* ========================================
+   PROMO CLOSE BUTTON
+   BASE POSITION
+======================================== */
+
+.close-button,
+.ad-close-button,
+.promo-close,
+.modal-close,
+.popup-close {
+  position: absolute;
+  z-index: 100;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+}
+
+/* ========================================
+   DESKTOP: MOVE RED X UPWARD
+   SCREEN WIDTH 1024px AND ABOVE
+======================================== */
+
+@media screen and (min-width: 1024px) {
+  .close-button,
+  .ad-close-button,
+  .promo-close,
+  .modal-close,
+  .popup-close,
+  button[aria-label="Close"],
+  button[aria-label="Tutup"] {
+    transform: translateY(-12px) !important;
+  }
+}
+
+
+/* DESKTOP — NAIKKAN TOMBOL X LEBIH JAUH */
+@media screen and (min-width: 1024px) {
+  .close-button,
+  .ad-close-button,
+  .promo-close,
+  .modal-close,
+  .popup-close,
+  button[aria-label="Close"],
+  button[aria-label="Tutup"] {
+    transform: translateY(-30px) !important;
+  }
+}
+
+/* MOBILE — POSISI TETAP */
+@media screen and (max-width: 1023px) {
+  .close-button,
+  .ad-close-button,
+  .promo-close,
+  .modal-close,
+  .popup-close,
+  button[aria-label="Close"],
+  button[aria-label="Tutup"] {
+    transform: none !important;
+  }
+}
+
+/* DESKTOP — NAIKKAN TOMBOL X LEBIH JAUH */
+@media screen and (min-width: 1024px) {
+  .close-button,
+  .ad-close-button,
+  .promo-close,
+  .modal-close,
+  .popup-close,
+  button[aria-label="Close"],
+  button[aria-label="Tutup"] {
+    transform: translateY(-30px) !important;
+  }
+}
+
+/* MOBILE — POSISI TETAP */
+@media screen and (max-width: 1023px) {
+  .close-button,
+  .ad-close-button,
+  .promo-close,
+  .modal-close,
+  .popup-close,
+  button[aria-label="Close"],
+  button[aria-label="Tutup"] {
+    transform: none !important;
+  }
+}
